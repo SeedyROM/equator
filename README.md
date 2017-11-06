@@ -1,4 +1,4 @@
-# equator
+# equator 🖼️
 Equational image generator JSON-API, written with Flask and Pillow 
 
 ### How to use?
