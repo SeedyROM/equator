@@ -2,7 +2,7 @@
 Equational image generator JSON-API, written with Flask and Pillow 
 
 ### How to use?
-* `https://github.com/SeedyROM/equator && cd equator`
+* `git clone https://github.com/SeedyROM/equator && cd equator`
 * `pip -r requirements.txt`
 * `python app.py`
 * `<url>/?eq=<equation_to_draw>&w=<width>&h=<height>&s=<scale>`
