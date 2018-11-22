@@ -1,35 +1,37 @@
 import math
+import os
 
 from flask import Flask, send_file, request
-from flask.ext.runner import Runner
 from io import BytesIO
 from PIL import Image
 
 
 app = Flask(__name__)
-runner = Runner(app)
 
 RENDER_TYPE = {
     'default': 'L',
     'color': 'RGB',
-    }
+}
 
 MATH_SCOPE = [
-        'acos', 'asin', 'atan', 'atan2',
-        'ceil', 'cos', 'cosh', 'degrees',
-        'e', 'exp', 'fabs', 'floor',
-        'fmod', 'frexp', 'hypot',
-        'ldexp', 'log', 'log10', 'modf',
-        'pi', 'pow', 'radians', 'sin', 'sinh',
-        'sqrt', 'tan', 'tanh',
-        ]
-MATH_SCOPE = {k : eval(f'math.{k}') for k in MATH_SCOPE}
+    'acos', 'asin', 'atan', 'atan2',
+    'ceil', 'cos', 'cosh', 'degrees',
+    'e', 'exp', 'fabs', 'floor',
+    'fmod', 'frexp', 'hypot',
+    'ldexp', 'log', 'log10', 'modf',
+    'pi', 'pow', 'radians', 'sin', 'sinh',
+    'sqrt', 'tan', 'tanh',
+]
+
+MATH_SCOPE = {k: eval(f'math.{k}') for k in MATH_SCOPE}
+
 
 def return_image(_image):
     image_io = BytesIO()
     _image.save(image_io, 'JPEG')
     image_io.seek(0)
     return send_file(image_io, mimetype='image/jpeg')
+
 
 @app.route('/')
 def default_image_generator():
@@ -52,12 +54,9 @@ def default_image_generator():
         for y in range(h):
             scope.update({'x': x, 'y': y, 't': x * y})
             val = eval(eq, {'__builtins__': None}, scope)
-            pixels[x, y] = int(val) & 0xFF;
+            pixels[x, y] = int(val) & 0xFF
 
     if scale > 0:
         image = image.resize((w * scale, h * scale), Image.NEAREST)
 
     return return_image(image)
-
-if __name__ == '__main__':
-    runner.run()

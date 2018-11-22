@@ -4,8 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-flask-runner = "*"
+flask = ">=0.12.3"
 python-magic = "*"
 pillow = "*"
 
